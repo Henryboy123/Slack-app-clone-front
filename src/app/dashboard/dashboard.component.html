@@ -1,0 +1,38 @@
+<div class="navbar">
+  <h1>Dashboard</h1>
+  <button class="logout" (click)="logout()">Sing out</button>
+</div>
+
+<div class="content">
+  <!-- Display list of channels -->
+  <div *ngIf="channels.length > 0" class="channel-list">
+    <h2>Channels:</h2>
+    <button *ngFor="let channel of channels" class="channel-names" (click)="getChannelData(channel._id)">
+      {{ channel.name }}
+    </button>
+    <div *ngIf="selectedChannel">
+      <div *ngIf="channelUsers.length > 0" class="channel-users">
+        <h2>Users in this Channel:</h2>
+        <ul>
+          <li *ngFor="let user of channelUsers">{{ user.name }}</li>
+        </ul>
+      </div>
+      <div *ngIf="channelUsers.length === 0" class="no-users">No users in this channel</div>
+    </div>
+  </div>
+
+
+  <!-- Display messages for the selected channel -->
+  <div *ngIf="selectedChannel" class="messages">
+    <h2>Messages for Channel: {{ getChannelName(selectedChannel) }}</h2>
+    <div *ngIf="messages.length > 0">
+      <div *ngFor="let message of messages" class="message">{{ message.content }} by {{ message.userName }}</div>
+    </div>
+    <div *ngIf="messages.length === 0" class="no-messages">No messages for this channel</div>
+
+    <div class="message-input">
+      <input type="text" [(ngModel)]="newMessageContent" placeholder="Type your message">
+      <button (click)="sendMessage()">Send</button>
+    </div>
+  </div>
+</div>
